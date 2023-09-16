@@ -241,10 +241,10 @@ function renderFavoriForm(favori = null) {
                 class="form-control Alpha"
                 name="Category"
                 id="Category"
-                placeholder="Courriel"
+                placeholder="Catégorie"
                 required
-                RequireMessage="Veuillez entrer votre courriel" 
-                InvalidMessage="Veuillez entrer un courriel valide"
+                RequireMessage="Veuillez entrer une catégorie" 
+                InvalidMessage="Veuillez entrer une catégorie valide"
                 value="${favori.Category}"
             />
             <hr>
