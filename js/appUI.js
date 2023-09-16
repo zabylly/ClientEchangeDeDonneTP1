@@ -13,9 +13,7 @@ function Init_UI() {
         renderFavoris();
     });
 
-    $('#aboutCmd').on("click", function () {
-        renderAbout();
-    });
+
 
 }
 
@@ -97,9 +95,11 @@ async function renderFavorisCategory(category) {
     }
 }
 async function renderCategories() {
+    $("#categoryMenu").empty();
     let favoris = await Favoris_API.Get();
     let categories = favoris.map(favori => favori.Category);
     categories = [...new Set(categories)];//enlève les doublons
+    console.log(categories);
     if (categories !== null) {
         categories.forEach(category => {
             $("#categoryMenu").append(renderCategory(category));
@@ -113,6 +113,12 @@ async function renderCategories() {
     } else {
         renderError("Service introuvable");
     }
+    $("#categoryMenu").append(`<div class="dropdown-item" id="aboutCmd">
+        <i class="menuIcon fa fa-info-circle mx-2"></i> À propos...
+    </div>`);
+    $('#aboutCmd').on("click", function () {
+        renderAbout();
+    });
 }
 function showWaitingGif() {
     $("#content").empty();
@@ -178,7 +184,10 @@ async function renderDeleteFavoriForm(id) {
             showWaitingGif();
             let result = await Favoris_API.Delete(favori.Id);
             if (result)
+            {
+                renderCategories();
                 renderFavoris();
+            }
             else
                 renderError("Une erreur est survenue!");
         });
@@ -264,7 +273,10 @@ function renderFavoriForm(favori = null) {
         showWaitingGif();
         let result = await Favoris_API.Save(favori, create);
         if (result)
+        {
+            renderCategories();
             renderFavoris();
+        }
         else
             renderError("Une erreur est survenue!");
     });
